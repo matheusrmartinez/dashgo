@@ -42,11 +42,14 @@ export default function CreateUser() {
     resolver: yupResolver(createUserFormSchema)
   })
 
+  const { errors } = formState;
+
   const handleCreateUser: SubmitHandler<CreateUserFormData> = async (value) => {
       await new Promise(resolve => setTimeout(resolve, 2000))
+
+      console.log(value);
   }
 
-  const { errors } = formState.errors;
   return (
     <Box>
       <Header />
@@ -92,7 +95,7 @@ export default function CreateUser() {
                 name="password_confirmation"
                 type="password"
                 label="Confirmação da senha"
-                error={errors?.password_confirmation}
+                error={errors.password_confirmation}
                 {...register('password_confirmation')}
               />
             </SimpleGrid>
