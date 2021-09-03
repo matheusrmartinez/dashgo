@@ -5,52 +5,28 @@ import {
   Flex,
   Heading,
   Icon,
+  Spinner,
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  Text,
   useBreakpointValue,
-  Spinner,
-} from "@chakra-ui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { Header } from "../../components/Header";
-import Pagination from "../../components/Pagination";
-import { SideBar } from "../../components/Sidebar";
-import { useQuery } from "react-query";
-import { api } from "../../services/api";
+} from '@chakra-ui/react';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
+import { RiAddLine } from 'react-icons/ri';
+
+import { Header } from '../../components/Header';
+import Pagination from '../../components/Pagination';
+import { SideBar } from '../../components/Sidebar';
+import { useUsers } from '../../services/hooks/useUsers';
 
 export default function UserList() {
   // o primeiro parâmetro do useQuery é a chave qeu será utilizada para armazenar/recuperar os dados.
-  const { data, isLoading, error, isFetching } = useQuery(
-    "users",
-    async () => {
-      const { data } = await api.get("users");
-
-      const users = data.users.map((user) => {
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          createAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-          }),
-        };
-      });
-
-      return users;
-    },
-    {
-      staleTime: 1000 * 5,
-    }
-  );
+  const { data, isLoading, error, isFetching } = useUsers()
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -124,7 +100,11 @@ export default function UserList() {
                   })}
                 </Tbody>
               </Table>
-              <Pagination />
+              <Pagination
+              totalCountOfRegisters={200}
+              currentPage={5}
+              onPageChange={() => { }}
+              />
             </Box>
           )}
         </Box>
