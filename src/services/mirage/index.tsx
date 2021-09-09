@@ -1,4 +1,4 @@
-import { createServer, Factory, Model, Response } from "miragejs";
+import { ActiveModelSerializer, createServer, Factory, Model, Response } from "miragejs";
 import faker from "faker";
 
 type User = {
@@ -9,6 +9,9 @@ type User = {
 
 export function makeServer() {
   const server = createServer({
+    serializers: {
+      application: ActiveModelSerializer
+    },
     models: {
       user: Model.extend<Partial<User>>({}),
     },
@@ -28,7 +31,7 @@ export function makeServer() {
     },
 
     seeds(server) {
-      server.createList("user", 10);
+      server.createList("user", 200);
     },
 
     routes() {
@@ -51,6 +54,7 @@ export function makeServer() {
         return new Response(200, { "x-total-count": String(total) }, { users });
       });
       this.post("/users");
+      this.get("/users/:id");
 
       // Necessário resetar esta rota para não conflitar com as rotas de produção que forem criadas dentro da pasta "api"
       this.namespace = "";

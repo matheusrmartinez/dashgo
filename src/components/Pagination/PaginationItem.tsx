@@ -1,9 +1,8 @@
-import { Button } from "@chakra-ui/react";
-import React from "react";
+import { Button } from '@chakra-ui/react';
 
 interface PaginationItemProps {
-  isCurrent?: boolean;
   number: number;
+  isCurrent?: boolean;
   onPageChange: (page: number) => void;
 }
 
@@ -14,18 +13,19 @@ export function PaginationItem({ isCurrent = false, number, onPageChange }: Pagi
         size="sm"
         fontSize="xs"
         width="4"
-        colorScheme="pink"
+        colorScheme='pink'
         disabled
         _disabled={{
-          bg: "pink.500",
-          cursor: "default",
+          bg:
+            'pink.500',
+          cursor:
+            'default'
         }}
       >
         {number}
       </Button>
     );
   }
-
   return (
     <Button
       size="sm"
@@ -33,7 +33,7 @@ export function PaginationItem({ isCurrent = false, number, onPageChange }: Pagi
       width="4"
       bg="gray.700"
       _hover={{
-        bg: "gray.500",
+        bg: 'gray.500'
       }}
       onClick={() => onPageChange(number)}
     >
