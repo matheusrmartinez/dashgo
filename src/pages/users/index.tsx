@@ -21,15 +21,15 @@ import { Header } from "../../components/Header";
 import { SideBar } from "../../components/Sidebar";
 import NextLink from "next/link";
 import { RiPencilLine } from "react-icons/ri";
-import { useUsers } from "../../services/hooks/useUsers";
+import { getUsers, useUsers } from "../../services/hooks/useUsers";
 import { Pagination } from "../../components/Pagination";
 import { useState } from "react";
 import { queryClient } from "../../services/queryClient";
 import { api } from "../../services/api";
 
-export default function UserList() {
+export default function UserList({users}) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading, error, isFetching } = useUsers(currentPage);
+  const { data, isLoading, error, isFetching } = useUsers(currentPage, {initialData: users});
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -143,3 +143,13 @@ export default function UserList() {
     </Box>
   );
 }
+
+export const getServerSideProps = async () => {
+  const { users, totalCount } = await getUsers(1);
+
+  return {
+    props: {
+      users,
+    },
+  };
+};
